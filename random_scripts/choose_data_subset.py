@@ -17,9 +17,9 @@ full_data = pd.read_csv('../data/training.csv')
 securitiesToGet = 3
 topSecurities = (np.array(full_data['security_id']
 	.value_counts()
-	.order(ascending=False)
+	.sort_values(ascending=False)
 	.head(securitiesToGet).axes)).reshape(securitiesToGet)
-print "Top 3 Securities with highest row counts: ", topSecurities
+print("Top 3 Securities with highest row counts: ", topSecurities)
 
 #Extract the data for these securities
 subset_data = full_data[full_data['security_id'].isin(topSecurities)]
