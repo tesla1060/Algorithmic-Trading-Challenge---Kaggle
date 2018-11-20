@@ -11,11 +11,11 @@ import sklearn.multiclass as multiclass
 import pickle
 
 #Fetching data
-print "Fetching data..."
-train_set = pd.DataFrame.from_csv('../data/subset_train_OHE.csv')
+print("Fetching data...")
+train_set = pd.read_csv('../data/subset_train_OHE.csv')
 
 #Constructing Predictors
-print "Constructing Predictors..."
+print("Constructing Predictors...")
 all_bid_columns = []
 for column in train_set.columns.values:
 	if column.startswith('bid'):
@@ -46,7 +46,7 @@ for column in train_set.columns.values:
 trainFeatures = np.array(train_set[feature_columns])
 
 #Generating the clusters
-print "Modelling Clusters..."
+print("Modelling Clusters...")
 clusters = 4
 all_bid_cluster_model = cluster.KMeans(n_clusters=clusters,
 	init='k-means++',
@@ -75,7 +75,7 @@ all_ask_cluster_model.fit(all_ask_prices_nm)
 all_ask_labels = all_ask_cluster_model.predict(all_ask_prices_nm)
 
 #Classifying on the basis of clusters
-print "Classifying..."
+print("Classifying...")
 bid_cluster_classifier_ada = multiclass.OneVsOneClassifier(estimator=ensemble.AdaBoostClassifier(base_estimator=None,
 	n_estimators=50,
 	learning_rate=1.0,
@@ -83,7 +83,7 @@ bid_cluster_classifier_ada = multiclass.OneVsOneClassifier(estimator=ensemble.Ad
 	random_state=None),
 	n_jobs=-1)
 bid_cluster_classifier_ada.fit(trainFeatures, all_bid_labels)
-print "Bid accuracy with AdaBoost: ", bid_cluster_classifier_ada.score(trainFeatures, all_bid_labels)
+print("Bid accuracy with AdaBoost: ", bid_cluster_classifier_ada.score(trainFeatures, all_bid_labels))
 
 ask_cluster_classifier_ada = multiclass.OneVsOneClassifier(estimator=ensemble.AdaBoostClassifier(base_estimator=None,
 	n_estimators=50,
@@ -92,7 +92,7 @@ ask_cluster_classifier_ada = multiclass.OneVsOneClassifier(estimator=ensemble.Ad
 	random_state=None),
 	n_jobs=-1)
 ask_cluster_classifier_ada.fit(trainFeatures, all_ask_labels)
-print "Ask accuracy with AdaBoost Classifier: ", ask_cluster_classifier_ada.score(trainFeatures, all_ask_labels)
+print("Ask accuracy with AdaBoost Classifier: ", ask_cluster_classifier_ada.score(trainFeatures, all_ask_labels))
 
 ada = {'bid': bid_cluster_classifier_ada, 'ask': ask_cluster_classifier_ada}
 with open('../run_models/clusterAndClassify_Ada.model', 'wb') as output:
@@ -110,7 +110,7 @@ bid_cluster_classifier_bagging = multiclass.OneVsOneClassifier(estimator=ensembl
 	verbose=1),
 	n_jobs=-1)
 bid_cluster_classifier_bagging.fit(trainFeatures, all_bid_labels)
-print "Bid accuracy with Bagging: ", bid_cluster_classifier_bagging.score(trainFeatures, all_bid_labels)
+print("Bid accuracy with Bagging: ", bid_cluster_classifier_bagging.score(trainFeatures, all_bid_labels))
 
 ask_cluster_classifier_bagging = multiclass.OneVsOneClassifier(estimator=ensemble.BaggingClassifier(base_estimator=None, 
 	n_estimators=10,
@@ -124,7 +124,7 @@ ask_cluster_classifier_bagging = multiclass.OneVsOneClassifier(estimator=ensembl
 	verbose=1),
 	n_jobs=-1)
 ask_cluster_classifier_bagging.fit(trainFeatures, all_ask_labels)
-print "Ask accuracy with Bagging: ", ask_cluster_classifier_bagging.score(trainFeatures, all_ask_labels)
+print("Ask accuracy with Bagging: ", ask_cluster_classifier_bagging.score(trainFeatures, all_ask_labels))
 
 bag = {'bid': bid_cluster_classifier_bagging, 'ask': ask_cluster_classifier_bagging}
 with open('../run_models/clusterAndClassify_Bagging.model', 'wb') as output:
@@ -148,7 +148,7 @@ bid_cluster_classifier_rfc = multiclass.OneVsOneClassifier(estimator=ensemble.Ra
 	class_weight=None),
 	n_jobs=-1)
 bid_cluster_classifier_rfc.fit(trainFeatures, all_bid_labels)
-print "Bid accuracy with Random Forest: ", bid_cluster_classifier_rfc.score(trainFeatures, all_bid_labels)
+print("Bid accuracy with Random Forest: ", bid_cluster_classifier_rfc.score(trainFeatures, all_bid_labels))
 
 ask_cluster_classifier_rfc = multiclass.OneVsOneClassifier(estimator=ensemble.RandomForestClassifier(n_estimators=30,
 	criterion='gini',
@@ -168,7 +168,7 @@ ask_cluster_classifier_rfc = multiclass.OneVsOneClassifier(estimator=ensemble.Ra
 	class_weight=None),
 	n_jobs=-1)
 ask_cluster_classifier_rfc.fit(trainFeatures, all_ask_labels)
-print "Ask accuracy with Random Forest: ", ask_cluster_classifier_rfc.score(trainFeatures, all_ask_labels)
+print("Ask accuracy with Random Forest: ", ask_cluster_classifier_rfc.score(trainFeatures, all_ask_labels))
 
 rfc = {'bid': bid_cluster_classifier_rfc, 'ask': ask_cluster_classifier_rfc}
 with open('../run_models/clusterAndClassify_RFC.model', 'wb') as output:

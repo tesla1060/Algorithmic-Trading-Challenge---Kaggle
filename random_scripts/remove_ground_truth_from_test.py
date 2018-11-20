@@ -3,8 +3,8 @@
 
 import pandas as pd
 
-test_1 = pd.DataFrame.from_csv('../data/subset_test.csv')
-test_2 = pd.DataFrame.from_csv('../data/subset_test_OHE.csv')
+test_1 = pd.read_csv('../data/subset_test.csv')
+test_2 = pd.read_csv('../data/subset_test_OHE.csv')
 
 columnsToDelete = []
 

@@ -6,9 +6,9 @@
 import numpy as np
 import pandas as pd
 
-test_set = pd.DataFrame.from_csv('../data/subset_test.csv')
+test_set = pd.read_csv('../data/subset_test.csv')
 
-prediction = pd.DataFrame.from_csv('../predictions/template_prediction.csv')
+prediction = pd.read_csv('../predictions/template_prediction.csv')
 
 for ix, row in prediction.iterrows():
 	row_id = row['row_id']
@@ -22,8 +22,8 @@ for ix, row in prediction.iterrows():
 	for column in prediction.columns.values:
 		if column != 'row_id':
 			if column.startswith('ask'):
-				prediction.set_value(ix, column, ask)
+				prediction.at[ix, column] =  ask
 			else:
-				prediction.set_value(ix, column, bid)
+				prediction.at[ix, column] = bid
 
 prediction.to_csv('../predictions/benchmark.csv')

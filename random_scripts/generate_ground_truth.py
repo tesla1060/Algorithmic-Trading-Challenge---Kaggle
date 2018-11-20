@@ -5,7 +5,7 @@
 
 import pandas as pd
 
-test_data = pd.DataFrame.from_csv('../data/subset_test.csv')
+test_data = pd.read_csv('../data/subset_test.csv')
 
 columnsToRetain = ['row_id']
 

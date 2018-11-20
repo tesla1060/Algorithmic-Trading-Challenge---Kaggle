@@ -51,14 +51,14 @@ def one_hot_encode_data(dataframe):
 
 	return dataframe
 
-subset_data = pd.DataFrame.from_csv('../data/subset_data.csv')
+subset_data = pd.read_csv('../data/subset_data.csv')
 subset_data = one_hot_encode_data(subset_data)
 subset_data.to_csv('../data/subset_data_OHE.csv')
 
-train_set = pd.DataFrame.from_csv('../data/subset_train.csv')
+train_set = pd.read_csv('../data/subset_train.csv')
 train_set = one_hot_encode_data(train_set)
 train_set.to_csv('../data/subset_train_OHE.csv')
 
-test_set = pd.DataFrame.from_csv('../data/subset_test.csv')
+test_set = pd.read_csv('../data/subset_test.csv')
 test_set = one_hot_encode_data(test_set)
 test_set.to_csv('../data/subset_test_OHE.csv')

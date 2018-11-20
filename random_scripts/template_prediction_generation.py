@@ -6,7 +6,7 @@
 
 import pandas as pd
 
-template_prediction = pd.DataFrame.from_csv('../predictions/ground_truth.csv')
+template_prediction = pd.read_csv('../predictions/ground_truth.csv')
 
 for column in template_prediction.columns.values:
 	if column != 'row_id':
